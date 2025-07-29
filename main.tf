@@ -1,9 +1,11 @@
 provider "aws" {
-  region = "us-east-1"
+  region = "us-east-2"
 }
 
-resource "aws_instance" "example" {
-  ami           = "ami-0c94855ba95c574c8"
-  instance_type = "t2.micro"
-  key_name      = "my-key-pair"
+module "eks" {
+  source = "terraform-aws-modules/eks/aws"
+  name    = "test-cluster-01"
+  cluster_version = "1.23"
+  vpc_id     = "vpc-334343"
+  subnet_ids = ["subnet-0e9ae471d8daa03d4", "subnet-0e9ae471d8daa03d5"]
 }
