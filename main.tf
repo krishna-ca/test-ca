@@ -2,10 +2,25 @@ provider "aws" {
   region = "us-east-2"
 }
 
-module "eks" {
-  source = "terraform-aws-modules/eks/aws"
-  name    = "test-cluster-01"
-  cluster_version = "1.23"
-  vpc_id     = "vpc-334343"
-  subnet_ids = ["subnet-0e9ae471d8daa03d4", "subnet-0e9ae471d8daa03d5"]
+resource "aws_instance" "example" {
+  ami           = "ami-2323232"
+  instance_type = "t2.micro"
+  subnet_id     = "subnet-22332"
+  key_name      = "my-keypair"
+
+  vpc_security_group_ids = [
+    aws_security_group.example.id
+  ]
+}
+
+resource "aws_security_group_rule" "ssh" {
+  type        = "ingress"
+  from_port   = 22
+  to_port     = 22
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group" "example" {
+  name        = "terraform-example"
 }
