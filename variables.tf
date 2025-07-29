@@ -1,17 +1,24 @@
-variable "cluster_name" {
-  description = "Name of the EKS cluster to create"
-  type        = string
-  default     = "test-cluster"
+variable "region" {
+  description = "The AWS Region where resources will be created"
+  default     = "us-east-1"
 }
 
-variable "vpc_id" {
-  description = "ID of the VPC where the EKS cluster will reside"
-  type        = string
-  default     = "vpc-334343"
+variable "ami" {
+  description = "AMI ID for the instance to launch"
+  default     = "ami-2323232"
 }
 
-variable "subnet_ids" {
-  description = "List of subnet IDs for the EKS cluster"
-  type        = list(string)
-  default     = ["subnet-0e9ae471d8daa03d4", "subnet-0e9ae471d8daa03d5"]
+variable "instance_type" {
+  description = "The type of EC2 instance to launch"
+  default     = "t2.micro"
+}
+
+variable "subnet_id" {
+  description = "Subnet ID where the instance will be launched"
+  default     = "subnet-22332"
+}
+
+variable "key_name" {
+  description = "Name of the key pair for the instance"
+  default     = "my-keypair"
 }

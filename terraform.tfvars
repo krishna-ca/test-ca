@@ -1,1 +1,5 @@
-cluster_version = "1.23"
+region      = "us-east-1"
+ami         = "ami-2323232"
+instance_type = "t2.micro"
+subnet_id     = "subnet-22332"
+key_name      = "my-keypair"
