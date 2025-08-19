@@ -1,26 +1,36 @@
 provider "aws" {
-  region = "us-east-2"
+  region = "us-east-1"
 }
 
-resource "aws_instance" "example" {
-  ami           = "ami-2323232"
-  instance_type = "t2.micro"
-  subnet_id     = "subnet-22332"
-  key_name      = "my-keypair"
-
-  vpc_security_group_ids = [
-    aws_security_group.example.id
-  ]
+resource "aws_vpc" "example" {
+  cidr_block = "10.0.0.0/16"
 }
 
-resource "aws_security_group_rule" "ssh" {
-  type        = "ingress"
-  from_port   = 22
-  to_port     = 22
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
+resource "aws_internet_gateway" "example" {
+  vpc_id = aws_vpc.example.id
 }
 
-resource "aws_security_group" "example" {
-  name        = "terraform-example"
+resource "aws_route_table" "example" {
+  vpc_id = aws_vpc.example.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.example.id
+  }
+}
+
+resource "aws_subnet" "example" {
+  vpc_id     = aws_vpc.example.id
+  cidr_block = "10.0.1.0/24"
+}
+
+resource "aws_route_table_association" "example" {
+  subnet_id      = aws_subnet.example.id
+  route_table_id = aws_route_table.example.id
+}
+
+resource "aws_network_interface" "example" {
+  subnet_id       = aws_subnet.example.id
+  private_ips     = ["10.0.1.10"]
+  source_dest_check = false
 }

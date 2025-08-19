@@ -1,7 +1,8 @@
-variable "terraform_version" {
-  default = "~> 1.0"
-}
-
-provider "aws" {
-  version = var.terraform_version
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+  }
 }

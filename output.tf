@@ -1,3 +1,3 @@
-output "instance_id" {
-  value = aws_instance.example.id
+output "igw_id" {
+  value = aws_internet_gateway.example.id
 }
